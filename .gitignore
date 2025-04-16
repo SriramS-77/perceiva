@@ -75,3 +75,6 @@ crashlytics-build.properties
 
 # MultiSet SDK Client Id and Secret
 **/MultiSetConfig.asset
+
+# Visual Studio Config file
+.vsconfig
