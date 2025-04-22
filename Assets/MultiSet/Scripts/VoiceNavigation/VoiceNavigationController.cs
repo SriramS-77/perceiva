@@ -12,11 +12,11 @@ public class VoiceNavigationController : MonoBehaviour
     [Tooltip("Seconds allowed between taps to count triple?tap")]
     public float tapThreshold = 0.5f;
 
-    int tapCount = 0;
-    float lastTapTime = 0f;
+    public int speechRequestCode = 1001;   // Expose a request code for speech-to-text
 
     bool waitingForVoice = false;
     POI[] lastOptions;
+    private int currentIndex = 0;
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR
     DictationRecognizer dictation;
@@ -65,8 +65,13 @@ public class VoiceNavigationController : MonoBehaviour
         if (Mouse.current?.leftButton.wasPressedThisFrame == true)
             return true;
         return false;
-    }   
+    }
 
+
+    public void InitializeCurrentPOI ()
+    {
+        currentIndex = 0;
+    }
 
     public void OnTripleTap()
     {
@@ -74,30 +79,37 @@ public class VoiceNavigationController : MonoBehaviour
         lastOptions = NavigationController.instance.augmentedSpace.GetPOIs();
         Debug.Log($"[VoiceNav] {lastOptions.Length} options found");
 
-        // 2) Speak them out
-        for (int i = 0; i < lastOptions.Length; i++)
-        {
-            var name = lastOptions[i].poiName;
-            Debug.Log($"[VoiceNav] Speaking Option {i}: {name}");
-            TTSManager.Instance.Speak($"Option {i}: {name}");
-        }
+        /*        for (int i = 0; i < lastOptions.Length; i++)
+                {
+                    var name = lastOptions[i].poiName;
+                    Debug.Log($"[VoiceNav] Speaking Option {i}: {name}");
+                    TTSManager.Instance.Speak($"Option {i}: {name}");
+                }*/
 
-        // 3) Prepare to listen on next tap - StartCoroutine(WaitForNextTapThenListen());
+        currentIndex = 0;
+        SpeakCurrent();
     }
 
-/*    IEnumerator WaitForNextTapThenListen()
+    void SpeakCurrent()
     {
-        // Wait until user taps once more
-        do { yield return null; }
-        while (!WasScreenTapped());
+        if (lastOptions == null || lastOptions.Length == 0) return;
+        var poi = lastOptions[currentIndex];
+        TTSManager.Instance.Speak($"Option {currentIndex}: {poi.poiName}", false);
+    }
 
-        // Prompt
-        TTSManager.Instance.Speak("Give your selection");
+    /*    IEnumerator WaitForNextTapThenListen()
+        {
+            // Wait until user taps once more
+            do { yield return null; }
+            while (!WasScreenTapped());
 
-        // Activate voice listener
-        waitingForVoice = true;
-        StartVoiceRecognition();
-    }*/
+            // Prompt
+            TTSManager.Instance.Speak("Give your selection");
+
+            // Activate voice listener
+            waitingForVoice = true;
+            StartVoiceRecognition();
+        }*/
 
     public void StartVoiceRecognition()
     {
@@ -116,14 +128,41 @@ public class VoiceNavigationController : MonoBehaviour
         dictation.DictationComplete += status => CleanupDictation();
         dictation.DictationError += (err, h) => CleanupDictation();
         dictation.Start();
+/*#elif UNITY_ANDROID && !UNITY_EDITOR
+        // Build a RecognizerIntent
+        var intentClass = new AndroidJavaClass("android.speech.RecognizerIntent");
+        string action = intentClass.GetStatic<string>("ACTION_RECOGNIZE_SPEECH");
+        var intent = new AndroidJavaObject("android.content.Intent", action);
+
+        // Free?form language model
+        intent.Call<AndroidJavaObject>("putExtra",
+            intentClass.GetStatic<string>("EXTRA_LANGUAGE_MODEL"),
+            intentClass.GetStatic<string>("LANGUAGE_MODEL_FREE_FORM"));
+
+        // Optional prompt
+        intent.Call<AndroidJavaObject>("putExtra",
+            intentClass.GetStatic<string>("EXTRA_PROMPT"),
+            "Give your selection");
+
+        // Launch the Intent
+        var unityPlayer = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        var activity    = unityPlayer.GetStatic<AndroidJavaObject>("currentActivity");
+        activity.Call("startActivityForResult", intent, speechRequestCode);*/
 #else
-        // On Android/iOS you must plug in platform?specific speech recognition.
-        // e.g. launch an Android Intent for RecognizerIntent and implement
-        // OnActivityResult in a custom plugin that calls back into Unity.
-        Debug.LogError("Voice recognition not implemented on this platform yet.");
+        Debug.LogError("Voice recognition only supported on Android devices or in Editor.");
         waitingForVoice = false;
 #endif
     }
+
+
+    // Must match the GameObject name and method name in UnitySendMessage below
+    public void OnVoiceCommand(string spoken)
+    {
+        waitingForVoice = false;
+        ProcessVoiceCommand(spoken);
+    }
+
+
 
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR
     void OnDictationResult(string text, ConfidenceLevel confidence)
@@ -166,5 +205,33 @@ public class VoiceNavigationController : MonoBehaviour
         {
             TTSManager.Instance.Speak("Sorry, I didn't understand. Try triple?tap again.");
         }
+    }
+
+    public void OnSwipeDown()
+    {
+        if (lastOptions == null) return;
+        currentIndex = (currentIndex + 1) % lastOptions.Length;
+        SpeakCurrent();
+    }
+
+    public void OnSwipeUp()
+    {
+        if (lastOptions == null) return;
+        currentIndex = (currentIndex - 1 + lastOptions.Length)
+                       % lastOptions.Length;
+        SpeakCurrent();
+    }
+
+    public void OnSwipeRight()
+    {
+        if (lastOptions == null) return;
+        var poi = lastOptions[currentIndex];
+        // TTSManager.Instance.Speak($"Starting navigation to {poi.poiName}");
+        NavigationController.instance.SetPOIForNavigation(poi);
+    }
+
+    public void OnSwipeLeft()
+    {
+        NavigationController.instance.StopNavigation();
     }
 }

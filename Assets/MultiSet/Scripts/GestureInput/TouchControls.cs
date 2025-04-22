@@ -117,6 +117,24 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchPosition"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""fa7f9943-d8ea-438d-b647-dbf35fbd0850"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""TouchPress"",
+                    ""type"": ""Button"",
+                    ""id"": ""24db1c0d-d3a6-4bfb-9e61-979fa53ce455"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -152,6 +170,28 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
                     ""action"": ""PressAndHoldInput"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e95701d1-ab6f-4ea8-aedb-13b156bb4bb0"",
+                    ""path"": ""<Touchscreen>/primaryTouch/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPosition"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d685b539-9352-45d0-b20d-b44c733ca142"",
+                    ""path"": ""<Touchscreen>/Press"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""TouchPress"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -163,6 +203,8 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
         m_Touch_DoubleTapInput = m_Touch.FindAction("DoubleTapInput", throwIfNotFound: true);
         m_Touch_TripleTapInput = m_Touch.FindAction("TripleTapInput", throwIfNotFound: true);
         m_Touch_PressAndHoldInput = m_Touch.FindAction("PressAndHoldInput", throwIfNotFound: true);
+        m_Touch_TouchPosition = m_Touch.FindAction("TouchPosition", throwIfNotFound: true);
+        m_Touch_TouchPress = m_Touch.FindAction("TouchPress", throwIfNotFound: true);
     }
 
     ~@TouchControls()
@@ -246,6 +288,8 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Touch_DoubleTapInput;
     private readonly InputAction m_Touch_TripleTapInput;
     private readonly InputAction m_Touch_PressAndHoldInput;
+    private readonly InputAction m_Touch_TouchPosition;
+    private readonly InputAction m_Touch_TouchPress;
     /// <summary>
     /// Provides access to input actions defined in input action map "Touch".
     /// </summary>
@@ -269,6 +313,14 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Touch/PressAndHoldInput".
         /// </summary>
         public InputAction @PressAndHoldInput => m_Wrapper.m_Touch_PressAndHoldInput;
+        /// <summary>
+        /// Provides access to the underlying input action "Touch/TouchPosition".
+        /// </summary>
+        public InputAction @TouchPosition => m_Wrapper.m_Touch_TouchPosition;
+        /// <summary>
+        /// Provides access to the underlying input action "Touch/TouchPress".
+        /// </summary>
+        public InputAction @TouchPress => m_Wrapper.m_Touch_TouchPress;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -304,6 +356,12 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
             @PressAndHoldInput.started += instance.OnPressAndHoldInput;
             @PressAndHoldInput.performed += instance.OnPressAndHoldInput;
             @PressAndHoldInput.canceled += instance.OnPressAndHoldInput;
+            @TouchPosition.started += instance.OnTouchPosition;
+            @TouchPosition.performed += instance.OnTouchPosition;
+            @TouchPosition.canceled += instance.OnTouchPosition;
+            @TouchPress.started += instance.OnTouchPress;
+            @TouchPress.performed += instance.OnTouchPress;
+            @TouchPress.canceled += instance.OnTouchPress;
         }
 
         /// <summary>
@@ -324,6 +382,12 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
             @PressAndHoldInput.started -= instance.OnPressAndHoldInput;
             @PressAndHoldInput.performed -= instance.OnPressAndHoldInput;
             @PressAndHoldInput.canceled -= instance.OnPressAndHoldInput;
+            @TouchPosition.started -= instance.OnTouchPosition;
+            @TouchPosition.performed -= instance.OnTouchPosition;
+            @TouchPosition.canceled -= instance.OnTouchPosition;
+            @TouchPress.started -= instance.OnTouchPress;
+            @TouchPress.performed -= instance.OnTouchPress;
+            @TouchPress.canceled -= instance.OnTouchPress;
         }
 
         /// <summary>
@@ -385,5 +449,19 @@ public partial class @TouchControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnPressAndHoldInput(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TouchPosition" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTouchPosition(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "TouchPress" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnTouchPress(InputAction.CallbackContext context);
     }
 }

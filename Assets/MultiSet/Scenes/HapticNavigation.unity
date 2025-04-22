@@ -1057,6 +1057,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tapThreshold: 0.5
+  speechRequestCode: 1001
 --- !u!114 &741549560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1619,7 +1620,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 23800000, guid: 6ca1120def195744d86330e0a33102d5, type: 2}
+  m_NavMeshData: {fileID: 23800000, guid: d94b549c220c4e54aaf57d995cfea7b7, type: 2}
   m_BuildHeightMesh: 0
 --- !u!114 &1212057513
 MonoBehaviour:
@@ -6296,9 +6297,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8111e5618d030fa43a1abcdc9c75ca86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  btn: {fileID: 0}
-  label: {fileID: 0}
-  InitialText: 'Button Clicked '
 --- !u!114 &7905779329935141239
 MonoBehaviour:
   m_ObjectHideFlags: 0
