@@ -22,6 +22,10 @@ public class NavigationController : MonoBehaviour
 
     [Tooltip("Space that contains POIs")]
     public AugmentedSpace augmentedSpace;
+    
+    // track whether we've already announced localization
+    bool wasLocalized = false;
+    bool destinationReached = false;
 
     void Awake()
     {
@@ -42,6 +46,19 @@ public class NavigationController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Announcer
+        bool isNowLocalized = agent.isOnNavMesh;
+        if (isNowLocalized && !wasLocalized)
+        {
+            wasLocalized = true;
+            TTSManager.Instance.Speak("Localization successful");
+        }
+        else if (!isNowLocalized && wasLocalized)
+        { 
+            wasLocalized = false;
+            TTSManager.Instance.Speak("Localization failed");
+        }
+
         if (agent.isOnNavMesh)
         {
             // stopped the NavMesh agent to walk to destination
@@ -69,7 +86,9 @@ public class NavigationController : MonoBehaviour
     {
         currentDestination = aPOI;
         StartNavigation();
-
+        // Announcer
+        TTSManager.Instance.Speak($"Starting navigation to {aPOI.poiName}");
+        destinationReached = false;
     }
 
     // Sets positions for ShowPath to start navigation.
@@ -82,6 +101,12 @@ public class NavigationController : MonoBehaviour
     // Stops navigation.
     public void StopNavigation()
     {
+        // Announcer
+        if (!destinationReached && currentDestination != null)
+        {
+            TTSManager.Instance.Speak($"Navigation to {currentDestination.poiName} stopped");
+        }
+
         if (currentDestination != null)
         {
             currentDestination = null;
@@ -93,6 +118,10 @@ public class NavigationController : MonoBehaviour
     // Handles destination arrival. Is called from POI.Arrived()
     public void ArrivedAtDestination()
     {
+        // Announcer
+        TTSManager.Instance.Speak($"You have arrived at destination, {currentDestination.poiName}");
+        destinationReached = true;
+        
         StopNavigation();
         NavigationUIController.instance.ShowArrivedState();
     }

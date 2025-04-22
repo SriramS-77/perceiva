@@ -1,0 +1,74 @@
+{
+    "name": "TouchControls",
+    "maps": [
+        {
+            "name": "Touch",
+            "id": "fcfe828b-1a60-4dbd-92fa-5b3a317517ac",
+            "actions": [
+                {
+                    "name": "DoubleTapInput",
+                    "type": "Button",
+                    "id": "9ac006e4-3295-4e75-809b-3ffb0572cb48",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TripleTapInput",
+                    "type": "Button",
+                    "id": "39a7ffc2-786e-48c3-86a6-7f3348209f70",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "PressAndHoldInput",
+                    "type": "Button",
+                    "id": "c5db6cfb-20e8-4969-a0fc-045190373cff",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "25d42d88-ded5-430b-9143-f825c36079f9",
+                    "path": "<Touchscreen>/touch*/Press",
+                    "interactions": "MultiTap",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DoubleTapInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e3ac23cb-d1d5-4d1a-8d38-90488544cb70",
+                    "path": "<Touchscreen>/touch*/Press",
+                    "interactions": "MultiTap(tapCount=3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TripleTapInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b32dc755-acf9-4c54-b0eb-4c2d715382da",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "Hold(duration=3)",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PressAndHoldInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

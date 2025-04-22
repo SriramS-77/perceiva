@@ -43,6 +43,10 @@ public class ShowPath : MonoBehaviour
 
     // true when showCornersToggle was used, needed to track change so we don't loop all the time 
     bool cornerVisibilityHasChanged = false;
+    public Vector3[] PathCorners
+    {
+        get { return path != null ? path.corners : new Vector3[0]; }
+    }
 
     void Awake()
     {
