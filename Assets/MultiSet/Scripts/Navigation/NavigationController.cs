@@ -24,7 +24,7 @@ public class NavigationController : MonoBehaviour
     public AugmentedSpace augmentedSpace;
     
     // track whether we've already announced localization
-    bool wasLocalized = false;
+    // bool wasLocalized = false;
     bool destinationReached = false;
 
     void Awake()
@@ -43,11 +43,42 @@ public class NavigationController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+    public void StartLocalization()
+    {
+        // 1) Get the AR camera’s world position
+        Vector3 camPos = ARCamera.transform.position;
+
+        // 2) Try to find ("sample") the nearest point on the NavMesh within 1 m
+        NavMeshHit hit;
+        bool found = NavMesh.SamplePosition(
+            camPos,       // source point in world space
+            out hit,      // returns the nearest point on the NavMesh
+            1.0f,         // max search radius (meters)
+            NavMesh.AllAreas
+        );
+
+        if (found)
+        {
+            // 3a) Warp the agent to that exact NavMesh location
+            agent.Warp(hit.position);
+
+            // 4a) Accurate success feedback via TTS
+            //    We only say “successful” if SamplePosition truly found a
+            //    point on the NavMesh within that radius.
+            TTSManager.Instance.Speak("Localization successful", false);
+        }
+        else
+        {
+            // 3b) If no NavMesh was found within 1 m, we consider it a failure
+            TTSManager.Instance.Speak("Localization failed, please move to a mapped area", false);
+        }
+    }
+
+        // Update is called once per frame
     void Update()
     {
         // Announcer
-        bool isNowLocalized = agent.isOnNavMesh;
+/*        bool isNowLocalized = agent.isOnNavMesh;
         if (isNowLocalized && !wasLocalized)
         {
             wasLocalized = true;
@@ -57,7 +88,7 @@ public class NavigationController : MonoBehaviour
         { 
             wasLocalized = false;
             TTSManager.Instance.Speak("Localization failed");
-        }
+        }*/
 
         if (agent.isOnNavMesh)
         {
@@ -87,7 +118,10 @@ public class NavigationController : MonoBehaviour
         currentDestination = aPOI;
         StartNavigation();
         // Announcer
-        TTSManager.Instance.Speak($"Starting navigation to {aPOI.poiName}");
+        TTSManager.Instance.Speak(
+            $"Starting navigation to {aPOI.poiName}",
+            false
+        );
         destinationReached = false;
     }
 
@@ -104,7 +138,10 @@ public class NavigationController : MonoBehaviour
         // Announcer
         if (!destinationReached && currentDestination != null)
         {
-            TTSManager.Instance.Speak($"Navigation to {currentDestination.poiName} stopped");
+            TTSManager.Instance.Speak(
+                $"Navigation to {currentDestination.poiName} stopped",
+                false
+            );
         }
 
         if (currentDestination != null)

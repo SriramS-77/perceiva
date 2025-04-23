@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -75,16 +76,23 @@ public class VoiceNavigationController : MonoBehaviour
 
     public void OnTripleTap()
     {
-        // 1) Gather reachable POIs (all POIs for simplicity)
-        lastOptions = NavigationController.instance.augmentedSpace.GetPOIs();
-        Debug.Log($"[VoiceNav] {lastOptions.Length} options found");
+        // 1) Gather all POIs
+        var all = NavigationController.instance.augmentedSpace.GetPOIs();                    // :contentReference[oaicite:0]{index=0}&#8203;:contentReference[oaicite:1]{index=1}
+        // 2) Compute distance, filter unreachable (< 0), sort by ascending distance
+        var reachable = all
+            .Select(poi => new {
+                poi,
+                dist = PathEstimationUtils.instance.EstimateDistanceToPosition(poi)         // :contentReference[oaicite:2]{index=2}&#8203;:contentReference[oaicite:3]{index=3}
+            })
+            .Where(x => x.dist >= 0)                                                       // keep only reachable
+            .OrderBy(x => x.dist)                                                          // closest first
+            .ToArray();
 
-        /*        for (int i = 0; i < lastOptions.Length; i++)
-                {
-                    var name = lastOptions[i].poiName;
-                    Debug.Log($"[VoiceNav] Speaking Option {i}: {name}");
-                    TTSManager.Instance.Speak($"Option {i}: {name}");
-                }*/
+        // 3) Store the POIs in lastOptions
+        lastOptions = reachable.Select(x => x.poi).ToArray();
+
+        // lastOptions = NavigationController.instance.augmentedSpace.GetPOIs();
+        Debug.Log($"[VoiceNav] {lastOptions.Length} reachable options found");
 
         currentIndex = 0;
         SpeakCurrent();
@@ -94,7 +102,14 @@ public class VoiceNavigationController : MonoBehaviour
     {
         if (lastOptions == null || lastOptions.Length == 0) return;
         var poi = lastOptions[currentIndex];
-        TTSManager.Instance.Speak($"Option {currentIndex}: {poi.poiName}", false);
+        // fetch and round distance
+        float rawDist = PathEstimationUtils.instance.EstimateDistanceToPosition(poi);          // :contentReference[oaicite:4]{index=4}&#8203;:contentReference[oaicite:5]{index=5}
+        int metersDist = Mathf.Max(0, Mathf.RoundToInt(rawDist));
+
+        TTSManager.Instance.Speak(
+            $"Option {currentIndex}: {poi.poiName}, {metersDist} meters away",
+            false
+        );
     }
 
     /*    IEnumerator WaitForNextTapThenListen()

@@ -5,10 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/MultiSet/Scenes/MyNavigation.unity
     guid: 36ccda3dc6bc9dd4aacd5730ee88d3cf
-  - enabled: 1
+  - enabled: 0
     path: Assets/MultiSet/Scenes/HapticNavigation.unity
     guid: 903013cf3153ee24ba9f2e788058f364
   m_configObjects:

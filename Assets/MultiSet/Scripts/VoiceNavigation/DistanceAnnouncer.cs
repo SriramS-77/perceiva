@@ -24,7 +24,8 @@ public class DistanceAnnouncer : MonoBehaviour
                 {
                     // Speak it
                     TTSManager.Instance.Speak(
-                      $"Reaching {poi.poiName} in {dist} metres"
+                      $"Reaching {poi.poiName} in {dist} metres",
+                      true
                     );
                 }
 

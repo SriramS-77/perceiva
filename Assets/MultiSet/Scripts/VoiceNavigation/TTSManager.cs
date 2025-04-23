@@ -34,10 +34,10 @@ public class TTSManager : MonoBehaviour
         // nothing to init
 #endif
     }
-    public void Speak(string text, bool blocking = true)
+    public void Speak(string text, bool wait = false)
     {
 #if UNITY_ANDROID && !UNITY_EDITOR
-        int blockingParam = blocking ? QUEUE_ADD : QUEUE_FLUSH;
+        int blockingParam = wait ? QUEUE_ADD : QUEUE_FLUSH;
         tts.Call<int>(
             "speak",
             text,

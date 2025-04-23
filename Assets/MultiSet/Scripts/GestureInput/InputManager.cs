@@ -50,8 +50,8 @@ public class InputManager : MonoBehaviour
         _tripleTapCallback = ctx => voiceNav.OnTripleTap();
         touchControls.Touch.TripleTapInput.performed += _tripleTapCallback;
 
-        // _hold3sCallback = ctx => voiceNav.StartVoiceRecognition();
-        // touchControls.Touch.PressAndHoldInput.performed += _hold3sCallback;
+        //_hold3sCallback = ctx => NavigationController.instance.StartLocalization();   // voiceNav.StartVoiceRecognition();
+        //touchControls.Touch.PressAndHoldInput.performed += _hold3sCallback;
     }
 
     private void OnDisable()
@@ -66,8 +66,8 @@ public class InputManager : MonoBehaviour
         touchControls.Touch.TouchPress.canceled -= ctx => OnTouchUp();
 
         touchControls.Touch.TripleTapInput.performed -= _tripleTapCallback;
-        // touchControls.Touch.PressAndHoldInput.performed -= _ => voiceNav.StartVoiceRecognition();
-        
+        //touchControls.Touch.PressAndHoldInput.performed -= _hold3sCallback;
+
         touchControls.Touch.Disable();
         touchControls.Dispose();
     }
