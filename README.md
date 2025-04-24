@@ -1,5 +1,3 @@
-
-https://github.com/user-attachments/assets/4c6cb29f-eb8f-4a1f-9eed-ff25af871703
 # Perceiva: A Multi-Sensory AR Navigation Assistant
 
 **Perceiva** is an assistive indoor navigation system built using Unity and C#, designed to support individuals with cognitive and visual impairments. Leveraging a LiDAR-scanned point-cloud environment, the app overlays real-time Augmented Reality (AR) guidance with voice, haptic, and gesture-based interaction to provide intuitive and accessible indoor wayfinding.
@@ -54,20 +52,43 @@ https://github.com/user-attachments/assets/4c6cb29f-eb8f-4a1f-9eed-ff25af871703
 
 ## Videos of Working
 
-### Demo of GUI
+<table>
+  <tr>
+    <td align="center">
+      <a href="videos/Perceiva_Demo_GUI.mp4"></a>
+      <br><b>Demo of GUI</b>
+    </td>
+    <td align="center">
+      <a href="videos/Perceiva_Demo.mp4"></a>
+      <br><b>Demo of Gesture control and Voice interaction</b>
+    </td>
+  </tr>
+</table>
 
-https://github.com/user-attachments/assets/271dd9ee-ab99-4763-8479-8f7cb92a9261
 
-### Demo of Gesture-based control and Voice interaction
 
 
 ---
 
 ## Screenshots of App
-<p align="center">
-  <img src="screenshots/screen1.png" width="30%" title="POI Selection UI"/>
-  <img src="screenshots/screen2.png" width="30%" title="AR Path Visualization"/>
-  <img src="screenshots/screen3.png" width="30%" title="Voice Navigation"/>
-</p>
+<div align="center">
+  <table>
+    <tr>
+      <td align="center" valign="center" title="POI Selection UI">
+        <img src="images/search.png" width="250px"><br>
+        <b>POI Selection UI</b>
+      </td>
+      <td align="center" valign="center">
+        <img src="images/corridor.png" width="250px" title="AR Path Visualization"><br>
+        <b>AR Path Visualization</b>
+      </td>
+      <td align="center" valign="center">
+        <img src="images/corner.png" width="250px" title="Navigation Through Corners"><br>
+        <b>Navigation Through Corners</b>
+      </td>
+    </tr>
+  </table>
+</div>
+
 
 ---
