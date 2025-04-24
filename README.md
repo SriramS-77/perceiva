@@ -52,21 +52,24 @@
 
 ## Video Demonstrations of Working
 
-<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; text-align: center;">
-  <div>
-    <a href="https://www.youtube.com/watch?v=sxZQ8fMkzYU" target="_blank">
-      <img src="images/full_demo.png" width="300" />
+<div align="center">
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <a href="https://www.youtube.com/watch?v=sxZQ8fMkzYU" target="_blank">
+        <img src="https://img.youtube.com/vi/sxZQ8fMkzYU/0.jpg" width="300" />
+      </a>
       <br><b>Demo of Gesture Control and Voice Interaction</b>
-    </a>
-  </div>
-  <div>
-    <a href="https://www.youtube.com/watch?v=7W35Ls6DxNQ" target="_blank">
-      <img src="images/gui_demo.png" width="300" />
-    </a>
-    <br><b>Demo of GUI</b>
-  </div>
+    </td>
+    <td align="center" width="50%">
+      <a href="https://www.youtube.com/watch?v=7W35Ls6DxNQ" target="_blank">
+        <img src="https://img.youtube.com/vi/7W35Ls6DxNQ/0.jpg" width="300" />
+      </a>
+      <br><b>Demo of GUI</b>
+    </td>
+  </tr>
+</table>
 </div>
-
 
 ---
 
