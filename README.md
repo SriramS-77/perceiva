@@ -50,22 +50,22 @@
 
 ---
 
-## Videos of Working
+## Video Demonstrations of Working
 
-<table>
-  <tr>
-    <td align="center">
-      <a href="videos/Perceiva_Demo_GUI.mp4"></a>
-      <br><b>Demo of GUI</b>
-    </td>
-    <td align="center">
-      <a href="videos/Perceiva_Demo.mp4"></a>
-      <br><b>Demo of Gesture control and Voice interaction</b>
-    </td>
-  </tr>
-</table>
-
-
+<div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; text-align: center;">
+  <div>
+    <a href="https://www.youtube.com/watch?v=sxZQ8fMkzYU" target="_blank">
+      <img src="images/full_demo.png" width="300" />
+      <br><b>Demo of Gesture Control and Voice Interaction</b>
+    </a>
+  </div>
+  <div>
+    <a href="https://www.youtube.com/watch?v=7W35Ls6DxNQ" target="_blank">
+      <img src="images/gui_demo.png" width="300" />
+    </a>
+    <br><b>Demo of GUI</b>
+  </div>
+</div>
 
 
 ---
@@ -89,6 +89,5 @@
     </tr>
   </table>
 </div>
-
 
 ---
